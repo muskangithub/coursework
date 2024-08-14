@@ -14,7 +14,7 @@ export default function Dashboard() {
           <div>
             <div className="text-[#1E2026] font-extrabold text-xl">
               Hey IB Folks ! Unsure about the quality of your answers?
-              <span className="text-[#6947BF]">We get you.</span>
+              <span className="text-[#6947BF]">We get you.</span>hello
             </div>
             <div></div>
           </div>
