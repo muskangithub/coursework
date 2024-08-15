@@ -3,7 +3,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -13,19 +12,19 @@ import { Badge } from "@/components/ui/badge";
 
 export default function CourseCard() {
   return (
-    <div className="w-[440px] border-[#F4EAD8] bg-gradient-to-r from-[#ffffff] to-[#F4EAD8] flex gap-1 p-[6px]">
+    <div className="max-w-[440px] w-full border-[#F4EAD8] rounded-xl bg-gradient-to-r from-[#ffffff] to-[#F4EAD8] flex gap-1 h-[172px] p-[6px]">
       <Image src={CardImg} alt={"card"} height={160} width={120} />
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-[#3D404B] font-semibold">
+      <Card className="h-full p-0  bg-card-none border-none">
+        <CardHeader className="p-0 py-1 px-2">
+          <CardTitle className="text-[#3D404B] font-semibold text-lg">
             How does the temperature of a Copper...
           </CardTitle>
-          <CardDescription className="text-[#7A8196] font-semibold">
+          <CardDescription className="text-[#7A8196] font-semibold text-xs">
             How does the temperature of a Copper pipe affect the time it takes a
             magnet to fall thought{" "}
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0 border-none">
           <div className="flex flex-wrap gap-1">
             <Badge className="bg-[#ffffff] flex gap-1 rounded-2xl">
               <svg
@@ -242,9 +241,6 @@ export default function CourseCard() {
             </Badge>
           </div>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
       </Card>
     </div>
   );

@@ -1,11 +1,8 @@
-import React from "react";
-import { FormCompo } from "./FormCompo";
+"use client";
+import React, { useState } from "react";
 import Image from "next/image";
 import Frame from "../../assets/images/Frame.png";
 import Rectangle from "../../assets/images/Rectangle.png";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import FileDropZone from "./FileDropZone";
 import {
   Select,
   SelectContent,
@@ -18,21 +15,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CourseCard from "./CourseCard";
+import ExploreCoursework from "./ExploreCoursework";
+import DragAnddrop from "./DragAndDrop";
 
 export default function Dashboard() {
-  const handleDrop = (files) => {
-    console.log(files);
-    // Handle files here (e.g., upload them to a server)
-  };
+  const [files, setFiles] = useState([]);
+  console.log(files, "file");
 
   return (
     <div className="flex bg-blue-100">
-      <div className="w-16 p-2">
-        <div className="bg-[#F8FAFC] w-full h-screen rounded-lg">hello</div>
-      </div>
-      <div className=" flex pt-[180px] justify-center max-w-[1099px]">
-        <div>
-          <div>
+      <div className="w-16 p-2 bg-[#F8FAFC] h-screen rounded-lg"></div>
+      <div className=" flex pt-[180px] justify-center max-w-[1099px] mx-auto flex-col gap-10">
+        <div className="flex gap-4 justify-cente h-[574px]">
+          <div className="flex flex-col">
             <div className="text-[#1E2026] font-extrabold text-xl">
               Hey IB Folks ! Unsure about the quality of your answers?
               <span className="text-[#6947BF]">We get you.</span>
@@ -44,6 +39,7 @@ export default function Dashboard() {
                   <FileDropZone onDrop={handleDrop} />
                 </div>
               </DndProvider> */}
+              <DragAnddrop onFilesSelected={setFiles} />
               <div className="flex flex-col gap-4">
                 <div>
                   <span className="text-[#7A8196]">
@@ -131,20 +127,23 @@ export default function Dashboard() {
                 <span className="text-[#fff]">Evaluate your Score</span>
               </Button>
             </div>
-            <div className="flex flex-col items-center">
-              <Image src={Rectangle} alt={""} width={270} height={161} />
-              <Image src={Frame} alt={""} width={343} height={464} />
-            </div>
           </div>
-          {/* <FormCompo /> */}
+          <div className="flex flex-col items-center">
+            <Image src={Rectangle} alt={""} width={228} height={131} />
+            <Image src={Frame} alt={""} width={290} height={392} />
+          </div>
         </div>
-      </div>
-      <div>
-        <span className="text-[#5B6170]">My coursework</span>
-        <div>
-          <CourseCard />
+        <div className="flex flex-col gap-3">
+          <span className="text-[#5B6170]">My coursework</span>
+          <div className="flex gap-4">
+            <CourseCard />
+            <CourseCard />
+          </div>
+          <div className="flex items-center justify-center ">
+            <span className="text-[#98A1BB]">View all</span>
+          </div>
         </div>
-        <span className="text-[#98A1BB]">View all</span>
+        <ExploreCoursework />
       </div>
     </div>
   );
