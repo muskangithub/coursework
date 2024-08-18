@@ -1,22 +1,54 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { object } from "zod";
 
-const DragAnddrop = ({ onFilesSelected, files }: any) => {
-  const handleFileChange = (event: any) => {
-    const selectedFile = event.target.files[0];
+interface DragAnddropProps {
+  onFilesSelected: (file: File | null) => void;
+  files: File | null;
+}
+
+const MAX_FILE_SIZE_MB = 25; // Maximum file size in MB
+
+const DragAnddrop: React.FC<DragAnddropProps> = ({
+  onFilesSelected,
+  files,
+}) => {
+  const checkFileSize = (file: File) => {
+    const fileSizeMB = file.size / (1024 * 1024); // Convert bytes to MB
+    if (fileSizeMB > MAX_FILE_SIZE_MB) {
+      alert(`File size exceeds the limit of ${MAX_FILE_SIZE_MB} MB.`);
+      return false;
+    }
+    return true;
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files ? event.target.files[0] : null;
     if (selectedFile) {
-      onFilesSelected(selectedFile);
+      if (
+        selectedFile.type === "application/pdf" &&
+        checkFileSize(selectedFile)
+      ) {
+        onFilesSelected(selectedFile);
+      } else {
+        alert("Please select a valid PDF file.");
+      }
     }
   };
 
-  const handleDrop = (event: any) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const droppedFile = event.dataTransfer.files[0];
     if (droppedFile) {
-      onFilesSelected(droppedFile);
+      if (
+        droppedFile.type === "application/pdf" &&
+        checkFileSize(droppedFile)
+      ) {
+        onFilesSelected(droppedFile);
+      } else {
+        alert("Please drop a valid PDF file.");
+      }
     }
   };
 
@@ -45,7 +77,7 @@ const DragAnddrop = ({ onFilesSelected, files }: any) => {
           hidden
           id="browse"
           onChange={handleFileChange}
-          accept=".pdf,.docx,.pptx,.txt,.xlsx"
+          accept=".pdf"
         />
         <label
           htmlFor="browse"
@@ -54,7 +86,7 @@ const DragAnddrop = ({ onFilesSelected, files }: any) => {
           Browse files
         </label>
 
-        {Object.keys(files).length > 0 && (
+        {files && (
           <div className="file-list">
             <div className="file-item">
               <div className="file-info">

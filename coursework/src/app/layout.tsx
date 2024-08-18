@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import { BriefcaseBusiness, Files, FileStack } from "lucide-react";
+import Image from "next/image";
+import logo from "../assets/images/logo.png";
+import { Folder, Info, LayoutDashboard } from "lucide-react";
+import Dashboard from "./Dashboard/page";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,9 +20,163 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* <DndProvider backend={HTML5Backend}> */}
-      <body className={inter.className}>{children}</body>
-      {/* </DndProvider> */}
+      <body className={`flex bg-blue-100 `}>
+        <Tabs defaultValue="IA" className="flex w-full  ">
+          <TabsList className="flex gap-2 flex-col w-14 p-2 bg-[#F8FAFC] h-auto  rounded-lg items-start justify-start">
+            <Image src={logo} alt={"logo"} height={36} width={36} />
+
+            <TabsTrigger
+              value="IA"
+              className="rounded-xl data-[state=active]:text-[#6947BF]"
+            >
+              <LayoutDashboard />
+            </TabsTrigger>
+            <TabsTrigger
+              value="EE"
+              className="rounded-xl data-[state=active]:text-[#6947BF]"
+            >
+              <FileStack />
+            </TabsTrigger>
+            <TabsTrigger
+              value="IO"
+              className="rounded-xl data-[state=active]:text-[#6947BF]"
+            >
+              <Folder />
+            </TabsTrigger>
+            <TabsTrigger
+              value="Tok"
+              className="rounded-xl data-[state=active]:text-[#6947BF]"
+            >
+              <Info />
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value="IA" className="w-full">
+            <Dashboard />
+          </TabsContent>
+          <TabsContent value="EE" className="w-full">
+            <div> test2</div>
+          </TabsContent>
+          <TabsContent value="IO" className="w-full">
+            <div> test3</div>
+          </TabsContent>
+          <TabsContent value="Tok" className="full">
+            <div> test4</div>
+          </TabsContent>
+        </Tabs>
+        <div className="w-[86px] p-3 h-auto flex flex-col items-end gap-3">
+          <div className="flex flex-col p-0.5 gap-1 ">
+            <Badge className="flex border border-[#EAF0F2] py-1 px-2.5 bg-white text-[#5B6170] font-extrabold text-sm ">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.99984 1.66675L12.1135 2.11169L14.1665 2.7832L15.7745 4.22538L17.2167 5.83341L17.8882 7.88639L18.3332 10.0001L17.8882 12.1138L17.2167 14.1667L15.7745 15.7748L14.1665 17.217L12.1135 17.8885L9.99984 18.3334L7.88615 17.8885L5.83317 17.217L4.22513 15.7748L2.78296 14.1667L2.11144 12.1138L1.6665 10.0001L2.11144 7.88639L2.78296 5.83341L4.22513 4.22538L5.83317 2.7832L7.88615 2.11169L9.99984 1.66675Z"
+                  fill="url(#paint0_radial_2_7729)"
+                />
+                <path
+                  d="M10.0002 3.33325L11.6911 3.6892L13.3335 4.22642L14.6199 5.38015L15.7737 6.66659L16.3109 8.30897L16.6668 9.99992L16.3109 11.6909L15.7737 13.3333L14.6199 14.6197L13.3335 15.7734L11.6911 16.3106L10.0002 16.6666L8.30921 16.3106L6.66683 15.7734L5.3804 14.6197L4.22666 13.3333L3.68945 11.6909L3.3335 9.99992L3.68945 8.30897L4.22666 6.66659L5.3804 5.38015L6.66683 4.22642L8.30921 3.6892L10.0002 3.33325Z"
+                  fill="url(#paint1_radial_2_7729)"
+                />
+                <path
+                  d="M5.97 12.25V11.2367L8.11667 8.82333V8.74333H6.03667V7.85H9.29V8.95L7.21667 11.2833V11.3567H9.37667V12.25H5.97ZM12.0315 12.3433C11.7515 12.3433 11.5026 12.3144 11.2848 12.2567C11.067 12.2033 10.8781 12.1233 10.7181 12.0167C10.5581 11.91 10.4248 11.7811 10.3181 11.63C10.2159 11.4789 10.1381 11.31 10.0848 11.1233C10.0359 10.9322 10.0115 10.7256 10.0115 10.5033V7.85H11.0915V10.47C11.0915 10.6833 11.1248 10.8589 11.1915 10.9967C11.2581 11.1344 11.3603 11.2367 11.4981 11.3033C11.6359 11.3656 11.8115 11.3967 12.0248 11.3967C12.2381 11.3967 12.4137 11.3656 12.5515 11.3033C12.6892 11.2367 12.7915 11.1344 12.8581 10.9967C12.9248 10.8589 12.9581 10.6833 12.9581 10.47V7.85H14.0315V10.5033C14.0315 11.0856 13.8648 11.5389 13.5315 11.8633C13.2026 12.1833 12.7026 12.3433 12.0315 12.3433Z"
+                  fill="#834700"
+                />
+                <defs>
+                  <radialGradient
+                    id="paint0_radial_2_7729"
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(9.99984 10.0001) rotate(90) scale(8.33333)"
+                  >
+                    <stop stop-color="#FFC657" />
+                    <stop offset="1" stop-color="#FFBA36" />
+                  </radialGradient>
+                  <radialGradient
+                    id="paint1_radial_2_7729"
+                    cx="0"
+                    cy="0"
+                    r="1"
+                    gradientUnits="userSpaceOnUse"
+                    gradientTransform="translate(10.0002 9.99992) rotate(90) scale(6.66667)"
+                  >
+                    <stop stop-color="#FFCC9D" />
+                    <stop offset="1" stop-color="#F29100" />
+                  </radialGradient>
+                </defs>
+              </svg>
+
+              <span>102</span>
+            </Badge>
+            <Badge className="flex border border-[#EAF0F2] py-1 px-2.5 bg-white text-[#5B6170] font-extrabold text-sm">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.89812 17.4098C6.7974 17.9338 4.7727 16.0268 4.14795 15.0078L4.73025 13.1699L5.40353 11.9871L5.89484 9.69433L7.31418 7.89286L8.76992 7.82007L11.9362 7.89286L14.9568 12.0963L15.9758 14.6075C14.1998 17.417 11.184 17.6463 9.89812 17.4098Z"
+                  fill="url(#paint0_linear_2_7735)"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.7731 12.7745C10.6867 12.8318 10.587 12.8657 10.4836 12.8729C10.3802 12.8802 10.2766 12.8605 10.1831 12.8159C10.058 12.7423 9.95766 12.633 9.89497 12.5021C9.83227 12.3712 9.81004 12.2245 9.83112 12.0809C9.77751 11.3688 9.4752 10.6982 8.97709 10.1865C8.81311 10.91 8.52221 11.5987 8.11788 12.2207L7.63651 12.9557C7.17692 13.657 6.9605 14.4899 7.02057 15.3263C7.06598 15.8888 7.32099 16.4138 7.7351 16.7972C8.14921 17.1806 8.69222 17.3946 9.25659 17.3966H10.5609C11.2093 17.3966 11.8313 17.1394 12.2903 16.6814C12.7493 16.2234 13.0078 15.602 13.0092 14.9536C13.0082 13.7121 12.5785 12.509 11.7928 11.5478C11.5713 12.0422 11.2187 12.4664 10.7731 12.7745Z"
+                  fill="url(#paint1_linear_2_7735)"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M13.0607 3.42075L12.7916 3.18265C12.7916 3.18265 12.7916 3.28617 12.7916 3.45698C12.7281 4.11201 12.5213 4.74507 12.1859 5.31127C11.8504 5.87748 11.3946 6.36298 10.8506 6.73336C10.8506 6.73336 10.8506 6.55221 10.8144 6.26753C10.7241 5.13961 10.354 4.05199 9.73769 3.10306C9.12134 2.15413 8.27814 1.37384 7.28436 0.832764C7.28436 0.832764 7.24813 1.428 7.20672 2.075C7.14564 3.10812 6.81554 4.10733 6.24917 4.97354L4.73261 7.27684C3.70095 8.8527 3.21709 10.7245 3.3558 12.6029C3.42483 13.521 3.7375 14.4041 4.26156 15.1611C4.78563 15.918 5.50212 16.5215 6.33716 16.9093C6.04624 16.458 5.86867 15.943 5.81956 15.4083C5.74329 14.3128 6.02681 13.2223 6.62701 12.3027L7.10838 11.5729C7.60992 10.8313 7.90799 9.97101 7.97277 9.07808C7.98024 8.97894 8.01202 8.88317 8.06527 8.79921C8.11853 8.71526 8.19164 8.64572 8.27815 8.59671C8.36519 8.54821 8.46318 8.52276 8.56283 8.52276C8.66247 8.52276 8.76046 8.54821 8.8475 8.59671C9.76989 9.09913 10.4714 9.92797 10.8144 10.9207C10.8678 10.7759 10.9009 10.6243 10.9127 10.4704C10.9042 10.3366 10.9369 10.2034 11.0063 10.0887C11.0757 9.97398 11.1785 9.88322 11.3009 9.82859C11.434 9.78585 11.5771 9.78529 11.7105 9.82698C11.8439 9.86868 11.9612 9.95059 12.0463 10.0615C12.7241 10.6826 13.2644 11.4386 13.6326 12.281C14.0007 13.1234 14.1885 14.0335 14.1839 14.9528C14.1846 15.5772 14.0222 16.1909 13.7129 16.7333C14.6329 16.2531 15.4041 15.5306 15.9432 14.6439C16.4824 13.7572 16.7689 12.74 16.7719 11.7023C16.7702 10.1386 16.4388 8.59281 15.7993 7.16583C15.1598 5.73885 14.2267 4.46273 13.0607 3.42075Z"
+                  fill="#FF7A1A"
+                />
+                <defs>
+                  <linearGradient
+                    id="paint0_linear_2_7735"
+                    x1="10.0619"
+                    y1="7.82007"
+                    x2="10.0619"
+                    y2="17.4992"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#FFC888" />
+                    <stop offset="1" stop-color="#FFEBCD" />
+                  </linearGradient>
+                  <linearGradient
+                    id="paint1_linear_2_7735"
+                    x1="10.01"
+                    y1="10.1865"
+                    x2="10.01"
+                    y2="17.3966"
+                    gradientUnits="userSpaceOnUse"
+                  >
+                    <stop stop-color="#FFBD8D" />
+                    <stop offset="1" stop-color="#FF6B00" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <span>204</span>
+            </Badge>
+          </div>
+          <div className="bg-gray-100 rounded-full p-1 items-center justify-center flex h-11 w-11">
+            <div className="bg-white items-center justify-center flex h-9 w-9 rounded-full">
+              <BriefcaseBusiness size={20} />
+            </div>
+          </div>
+          <div className="bg-gray-100 rounded-full p-1 items-center justify-center flex h-11 w-11">
+            <div className="bg-white items-center justify-center flex h-9 w-9 rounded-full">
+              <Files size={20} />
+            </div>
+          </div>
+        </div>
+      </body>
     </html>
   );
 }
