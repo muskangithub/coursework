@@ -25,6 +25,10 @@ export default function PageComponent() {
   const [error, setError] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false); // State for collapsing the image
   function convertDateFormat(dateStr: string) {
+    if (!dateStr) {
+      return "Invalid date"; // Handle cases where dateStr is undefined or null
+    }
+  
     const monthNames = [
       "January",
       "February",
@@ -39,10 +43,19 @@ export default function PageComponent() {
       "November",
       "December",
     ];
-    const [year, month, day] = dateStr.split("-");
-    const monthName = monthNames[parseInt(month, 10) - 1];
-    return `${day} ${monthName} ${year}`;
+  
+    try {
+      const [year, month, day] = dateStr.split("-");
+      if (!year || !month || !day) {
+        throw new Error("Invalid date format");
+      }
+      const monthName = monthNames[parseInt(month, 10) - 1];
+      return `${day} ${monthName} ${year}`;
+    } catch (error) {
+      return "Date format error"; // Handle cases where splitting or parsing fails
+    }
   }
+  
 
   useEffect(() => {
     if (typeof window !== "undefined") {

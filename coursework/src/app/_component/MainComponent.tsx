@@ -30,21 +30,22 @@ export default function MainComponent() {
     const savedData = localStorage.getItem("courseworkDataArray");
     if (savedData) {
       const courseworkArray = JSON.parse(savedData);
+      console.log('courseworkArray:', courseworkArray); // Debug line
       setCourseworkArray(courseworkArray);
       const lastCoursework = courseworkArray[courseworkArray.length - 1];
+      console.log('lastCoursework:', lastCoursework); // Debug line
       if (lastCoursework) {
         setCourse(lastCoursework.course || "");
         setSubject(lastCoursework.subject || "");
         setEssayTitle(lastCoursework.essayTitle || "");
         // Handle files separately
         if (lastCoursework.file) {
-          // For example, you can set files if they were serialized into a base64 string
           setFiles(lastCoursework.file);
         }
       }
     }
   }, []);
-
+  
   const handleFileSelection = (file: File | null) => {
     if (file) {
       const reader = new FileReader();
