@@ -49,8 +49,11 @@ export default function PageComponent() {
       const savedData = localStorage.getItem("courseworkDataArray");
       if (savedData) {
         const courseworkArray = JSON.parse(savedData);
-        const selectedCoursework = courseworkArray[parseInt(params.id)];
-
+  
+        // Ensure params.id is a string and handle the case if it is an array
+        const id = Array.isArray(params.id) ? params.id[0] : params.id;
+        const selectedCoursework = courseworkArray[parseInt(id)];
+  
         if (selectedCoursework) {
           setSpecificCoursework(selectedCoursework);
           if (selectedCoursework.file) {
@@ -66,7 +69,7 @@ export default function PageComponent() {
       }
     }
   }, [params.id]);
-
+  
   useEffect(() => {
     if (specificCoursework) {
       const score = (specificCoursework.eveluation?.overallScore / 20) * 100;

@@ -1,22 +1,26 @@
-"use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { useDrop } from "react-dnd";
 
-const FileDropZone = ({ onDrop }: any) => {
-  const [{ isOver, canDrop }, drop] = useDrop({
+// Define an interface for the item
+interface DropItem {
+  files: File[];
+}
+
+const FileDropZone: React.FC<{ onDrop: (files: File[]) => void }> = ({ onDrop }) => {
+  const [{ isOver }, drop] = useDrop({
     accept: "FILE",
-    drop: (item, monitor) => {
-      const files = monitor.getItem().files;
+    drop: (item: DropItem) => {
+      const files = item.files;
       onDrop(files);
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
     }),
   });
+
   const onFileDrop = useCallback(
-    (acceptedFiles: any) => {
+    (acceptedFiles: File[]) => {
       onDrop(acceptedFiles);
     },
     [onDrop]
@@ -27,10 +31,24 @@ const FileDropZone = ({ onDrop }: any) => {
     noClick: true,
   });
 
+  const dropRef = useRef<HTMLDivElement>(null);
+
+  // Attach drop to the dropRef current
+  React.useEffect(() => {
+    if (dropRef.current) {
+      drop(dropRef.current);
+    }
+  }, [drop]);
+
+  const handleBrowseClick = () => {
+    const fileInput = document.querySelector("input[type='file']") as HTMLInputElement;
+    fileInput?.click();
+  };
+
   return (
     <div
       {...getRootProps()}
-      ref={drop}
+      ref={dropRef}
       style={{
         border: "2px dashed #007bff",
         padding: "20px",
@@ -43,11 +61,11 @@ const FileDropZone = ({ onDrop }: any) => {
       {isDragActive ? (
         <p>Drop the files here ...</p>
       ) : (
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <p>Drag and drop some files here, or click to select files</p>
       )}
       <button
         type="button"
-        onClick={() => document.querySelector("input[type='file']").click()}
+        onClick={handleBrowseClick}
         style={{
           marginTop: "10px",
           padding: "8px 16px",

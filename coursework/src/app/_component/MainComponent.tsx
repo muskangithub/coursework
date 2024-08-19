@@ -36,7 +36,11 @@ export default function MainComponent() {
         setCourse(lastCoursework.course || "");
         setSubject(lastCoursework.subject || "");
         setEssayTitle(lastCoursework.essayTitle || "");
-        setFiles(lastCoursework.file || null);
+        // Handle files separately
+        if (lastCoursework.file) {
+          // For example, you can set files if they were serialized into a base64 string
+          setFiles(lastCoursework.file);
+        }
       }
     }
   }, []);
@@ -45,8 +49,8 @@ export default function MainComponent() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result?.toString().split(",")[1];
-        setFiles({ name: file.name, type: file.type, base64String });
+        // For demonstration, you might need to handle file in different ways
+        setFiles(file);
       };
       reader.readAsDataURL(file);
     } else {
@@ -65,7 +69,7 @@ export default function MainComponent() {
       course,
       subject,
       essayTitle,
-      eveluation: {
+      evaluation: {
         overallScore: Math.floor(Math.random() * 21),
         breakdown: {
           criteriaA: Math.floor(Math.random() * 11),
@@ -75,19 +79,16 @@ export default function MainComponent() {
         evaluationDate: currentDate,
       },
     };
-    const savedCourseworkArray =
-      JSON.parse(localStorage.getItem("courseworkDataArray")) || [];
+
+    const savedCourseworkData = localStorage.getItem("courseworkDataArray");
+    const savedCourseworkArray = savedCourseworkData ? JSON.parse(savedCourseworkData) : [];
+
     savedCourseworkArray.push(courseworkData);
-    localStorage.setItem(
-      "courseworkDataArray",
-      JSON.stringify(savedCourseworkArray)
-    );
+    localStorage.setItem("courseworkDataArray", JSON.stringify(savedCourseworkArray));
     setCourseworkArray(savedCourseworkArray);
   };
 
-  const visibleCoursework = showAll
-    ? courseworkArray
-    : courseworkArray.slice(0, 2);
+  const visibleCoursework = showAll ? courseworkArray : courseworkArray.slice(0, 2);
 
   return (
     <div className="flex">
@@ -99,50 +100,35 @@ export default function MainComponent() {
               <span className="text-[#6947BF]">We get you.</span>
             </div>
             <div className="bg-[#D6DFE4] p-5 flex flex-col gap-8">
-              <DragAnddrop
-                onFilesSelected={handleFileSelection}
-                files={files}
-              />
+              <DragAnddrop onFilesSelected={handleFileSelection} files={files} />
               <div className="flex flex-col gap-4">
                 <div>
                   <span className="text-[#7A8196]">
                     Select your course & subjects*
                   </span>
                   <div className="flex gap-5 max-md:flex-col">
-                    <Select
-                      value={course}
-                      onValueChange={(value) => setCourse(value)}
-                    >
+                    <Select value={course} onValueChange={(value) => setCourse(value)}>
                       <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl max-md:w-full">
                         <SelectValue placeholder="Coursework Type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectItem value="essay">Essay</SelectItem>
-                          <SelectItem value="researchPaper">
-                            Research Paper
-                          </SelectItem>
-                          <SelectItem value="presentation">
-                            Presentation
-                          </SelectItem>
+                          <SelectItem value="researchPaper">Research Paper</SelectItem>
+                          <SelectItem value="presentation">Presentation</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
 
-                    <Select
-                      value={subject}
-                      onValueChange={(value) => setSubject(value)}
-                    >
-                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl  max-md:w-full">
+                    <Select value={subject} onValueChange={(value) => setSubject(value)}>
+                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl max-md:w-full">
                         <SelectValue placeholder="Subject" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectItem value="history">History</SelectItem>
                           <SelectItem value="science">Science</SelectItem>
-                          <SelectItem value="mathematics">
-                            Mathematics
-                          </SelectItem>
+                          <SelectItem value="mathematics">Mathematics</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
