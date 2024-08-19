@@ -30,10 +30,10 @@ export default function MainComponent() {
     const savedData = localStorage.getItem("courseworkDataArray");
     if (savedData) {
       const courseworkArray = JSON.parse(savedData);
-      console.log('courseworkArray:', courseworkArray); // Debug line
+      console.log("courseworkArray:", courseworkArray); // Debug line
       setCourseworkArray(courseworkArray);
       const lastCoursework = courseworkArray[courseworkArray.length - 1];
-      console.log('lastCoursework:', lastCoursework); // Debug line
+      console.log("lastCoursework:", lastCoursework); // Debug line
       if (lastCoursework) {
         setCourse(lastCoursework.course || "");
         setSubject(lastCoursework.subject || "");
@@ -45,7 +45,7 @@ export default function MainComponent() {
       }
     }
   }, []);
-  
+
   const handleFileSelection = (file: File | null) => {
     if (file) {
       const reader = new FileReader();
@@ -82,14 +82,21 @@ export default function MainComponent() {
     };
 
     const savedCourseworkData = localStorage.getItem("courseworkDataArray");
-    const savedCourseworkArray = savedCourseworkData ? JSON.parse(savedCourseworkData) : [];
+    const savedCourseworkArray = savedCourseworkData
+      ? JSON.parse(savedCourseworkData)
+      : [];
 
     savedCourseworkArray.push(courseworkData);
-    localStorage.setItem("courseworkDataArray", JSON.stringify(savedCourseworkArray));
+    localStorage.setItem(
+      "courseworkDataArray",
+      JSON.stringify(savedCourseworkArray)
+    );
     setCourseworkArray(savedCourseworkArray);
   };
 
-  const visibleCoursework = showAll ? courseworkArray : courseworkArray.slice(0, 2);
+  const visibleCoursework = showAll
+    ? courseworkArray
+    : courseworkArray.slice(0, 2);
 
   return (
     <div className="flex">
@@ -101,27 +108,40 @@ export default function MainComponent() {
               <span className="text-[#6947BF]">We get you.</span>
             </div>
             <div className="bg-[#D6DFE4] p-5 flex flex-col gap-8">
-              <DragAnddrop onFilesSelected={handleFileSelection} files={files} />
+              <DragAnddrop
+                onFilesSelected={handleFileSelection}
+                files={files}
+              />
               <div className="flex flex-col gap-4">
                 <div>
                   <span className="text-[#7A8196]">
                     Select your course & subjects*
                   </span>
                   <div className="flex gap-5 max-md:flex-col">
-                    <Select value={course} onValueChange={(value) => setCourse(value)}>
+                    <Select
+                      value={course}
+                      onValueChange={(value) => setCourse(value)}
+                    >
                       <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl max-md:w-full">
                         <SelectValue placeholder="Coursework Type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectItem value="essay">Essay</SelectItem>
-                          <SelectItem value="researchPaper">Research Paper</SelectItem>
-                          <SelectItem value="presentation">Presentation</SelectItem>
+                          <SelectItem value="researchPaper">
+                            Research Paper
+                          </SelectItem>
+                          <SelectItem value="presentation">
+                            Presentation
+                          </SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
 
-                    <Select value={subject} onValueChange={(value) => setSubject(value)}>
+                    <Select
+                      value={subject}
+                      onValueChange={(value) => setSubject(value)}
+                    >
                       <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl max-md:w-full">
                         <SelectValue placeholder="Subject" />
                       </SelectTrigger>
@@ -129,7 +149,9 @@ export default function MainComponent() {
                         <SelectGroup>
                           <SelectItem value="history">History</SelectItem>
                           <SelectItem value="science">Science</SelectItem>
-                          <SelectItem value="mathematics">Mathematics</SelectItem>
+                          <SelectItem value="mathematics">
+                            Mathematics
+                          </SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -149,7 +171,7 @@ export default function MainComponent() {
                 </div>
               </div>
               <Button
-                className="bg-[#ADB8C9] rounded-3xl flex gap-2 py-2 w-[245px]"
+                className="bg-[#ADB8C9] rounded-3xl flex gap-2 py-2 w-[245px] hover:bg-gray-300"
                 onClick={handleSubmit}
               >
                 <UploadIcon />
