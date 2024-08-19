@@ -7,6 +7,7 @@ import Image from "next/image";
 import logo from "../assets/images/logo.png";
 import { Folder, Info, LayoutDashboard } from "lucide-react";
 import Dashboard from "./Dashboard/page";
+import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -176,6 +177,7 @@ export default function RootLayout({
             </div>
           </div>
         </div>
+        <Toaster />
       </body>
     </html>
   );

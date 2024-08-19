@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   ChevronsUpDown,
@@ -23,6 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import CircularProgress from "../_component/CircularProgress";
 import Image from "next/image";
 import pdfimage from "../../assets/images/pdfimage.png";
+import { toast } from "@/components/ui/use-toast";
 
 export default function PageComponent() {
   const params = useParams();
@@ -30,8 +31,32 @@ export default function PageComponent() {
   const [pdfData, setPdfData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false); // State for collapsing the image
-  const [height, setHeight] = useState("auto"); // State to manage height
-  const contentRef = useRef(null); // Ref to manage the height of the collapsible content
+  function convertDateFormat(dateStr) {
+    // Define an array of month names
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    // Split the input string into year, month, and day
+    const [year, month, day] = dateStr.split("-");
+
+    // Get the month name from the array
+    const monthName = monthNames[parseInt(month, 10) - 1];
+
+    // Return the formatted date
+    return `${day} ${monthName} ${year}`;
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -42,7 +67,6 @@ export default function PageComponent() {
 
         if (selectedCoursework) {
           setSpecificCoursework(selectedCoursework);
-
           if (selectedCoursework.file) {
             setPdfData(selectedCoursework.file);
           } else {
@@ -58,14 +82,29 @@ export default function PageComponent() {
   }, [params.id]);
 
   useEffect(() => {
-    if (contentRef.current) {
-      if (isCollapsed) {
-        setHeight("0px");
+    if (specificCoursework) {
+      const score = (specificCoursework.eveluation?.overallScore / 20) * 100;
+      if (score >= 70) {
+        toast({
+          variant: "success",
+          title: "Nice Job",
+          description: "Good job, keep it up",
+        });
+      } else if (score <= 30) {
+        toast({
+          variant: "destructive",
+          title: "Poor Performance",
+          description: "You need to improve your score",
+        });
       } else {
-        setHeight(`${contentRef.current.scrollHeight}px`);
+        toast({
+          variant: "middle",
+          title: "Need to Do Better",
+          description: "You can do better",
+        });
       }
     }
-  }, [isCollapsed]);
+  }, [specificCoursework]);
 
   if (error) {
     return <div>{error}</div>;
@@ -76,7 +115,7 @@ export default function PageComponent() {
   }
 
   return (
-    <div className="flex bg-blue-100 pt-16 px-6 pb-6 gap-6">
+    <div className="flex bg-blue-100 pt-8 px-6 pb-6 gap-6">
       <div className="w-[50%]">
         <div className="rounded-t-3xl bg-gray-200 p-3 flex justify-between">
           <Badge className="flex border border-[#EAF0F2] py-1 px-2.5 bg-white text-[#5B6170] font-extrabold text-sm">
@@ -101,14 +140,16 @@ export default function PageComponent() {
                   isCollapsed ? "rotate-180" : "rotate-0"
                 }`}
               />
-              <span>{isCollapsed ? "expand" : "collapse"}</span>
+              <span>{isCollapsed ? "Expand" : "Collapse"}</span>
             </Badge>
           </div>
         </div>
         <div
-          ref={contentRef}
-          style={{ height }}
-          className={`transition-height duration-1000 ease-in-out overflow-hidden bg-white`}
+          className={`overflow-hidden bg-white rounded-b-3xl ${
+            isCollapsed
+              ? "max-h-0 transition-max-height duration-1000 ease-in-out"
+              : "max-h-[600px] transition-max-height duration-1000 ease-in-out"
+          }`}
         >
           <div className="pt-5 px-16 h-[600px] overflow-y-auto opacity-100 transition-opacity duration-500">
             <Image src={pdfimage} alt={"pdf"} />
@@ -126,7 +167,10 @@ export default function PageComponent() {
                 Remark :<span className="text-[#3CC28A]">Good</span>
               </span>
               <span className="text-[#98A1BB] text-xs font-semibold">
-                Evaluated on 12 jul 2024
+                Evaluated on{" "}
+                {convertDateFormat(
+                  specificCoursework?.eveluation?.evaluationDate
+                )}
               </span>
             </div>
             <CircularProgress
@@ -142,6 +186,7 @@ export default function PageComponent() {
             val={specificCoursework?.eveluation?.breakdown?.criteriaA}
             height="60"
             width="60"
+            criteria={"A"}
             value="item-1"
             title="Understanding Knowledge Questions"
             description="The essay identifies and focuses on the knowledge question regarding the resolvability of disputes over knowledge claims within disciplines."
@@ -158,6 +203,7 @@ export default function PageComponent() {
             val={specificCoursework?.eveluation?.breakdown?.criteriaB}
             height="60"
             width="60"
+            criteria={"B"}
             value="item-2"
             title="Development of Ideas"
             description="The essay effectively develops ideas in a coherent manner."
@@ -174,6 +220,7 @@ export default function PageComponent() {
             val={specificCoursework?.eveluation?.breakdown?.criteriaC}
             height="60"
             width="60"
+            criteria={"C"}
             value="item-3"
             title="Use of Examples"
             description="The essay uses relevant examples to support arguments."
@@ -189,7 +236,7 @@ export default function PageComponent() {
         </Accordion>
         <Button className="flex gap-2 bg-white rounded-3xl px-4 w-[276px] animate-bounce">
           <span className="text-[#6947BF] font-extrabold text-sm">
-            Check detailed Evaluation
+            Check Detailed Evaluation
           </span>
           <ArrowRight stroke="#D9D9D9" size={20} />
         </Button>
@@ -201,6 +248,7 @@ export default function PageComponent() {
 const AccordionItemContent = ({
   val,
   height,
+  criteria,
   width,
   value,
   title,
@@ -218,7 +266,9 @@ const AccordionItemContent = ({
           val={val}
         />
         <div className="flex flex-col items-start">
-          <span className="text-[#98A1BB] font-bold text-xs">Criteria:</span>
+          <span className="text-[#98A1BB] font-bold text-xs">
+            Criteria:{criteria}
+          </span>
           <span className="text-[#3D404B] font-bold text-xl">{title}</span>
         </div>
       </div>

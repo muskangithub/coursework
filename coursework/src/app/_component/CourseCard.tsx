@@ -20,7 +20,7 @@ import {
 
 export default function CourseCard({ item, id }: any) {
   return (
-    <div className="w-[440px] border-[#F4EAD8] rounded-xl bg-gradient-to-r from-[#ffffff] to-[#F4EAD8] flex gap-1 h-[172px] p-[6px]">
+    <div className="w-[440px] max-md:w-full border-[#F4EAD8] rounded-xl bg-gradient-to-r from-[#ffffff] to-[#F4EAD8] flex gap-1 h-[172px] p-[6px]">
       <Image src={CardImg} alt={"card"} height={160} width={120} />
       <Card className="h-full p-0  bg-card-none border-none">
         <CardHeader className="p-0 py-1 px-2">

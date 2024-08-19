@@ -96,7 +96,7 @@ export default function MainComponent() {
 
   return (
     <div className="flex">
-      <div className="flex pt-[180px] justify-center max-w-[1099px] mx-auto flex-col gap-10">
+      <div className="flex pt-[180px] justify-center max-w-[1099px] max-md:w-full mx-auto flex-col gap-10">
         <div className="flex gap-4 h-[574px]">
           <div className="flex flex-col">
             <div className="text-[#1E2026] font-extrabold text-xl">
@@ -113,12 +113,12 @@ export default function MainComponent() {
                   <span className="text-[#7A8196]">
                     Select your course & subjects*
                   </span>
-                  <div className="flex gap-5">
+                  <div className="flex gap-5 max-md:flex-col">
                     <Select
                       value={course}
                       onValueChange={(value) => setCourse(value)}
                     >
-                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl">
+                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl max-md:w-full">
                         <SelectValue placeholder="Coursework Type" />
                       </SelectTrigger>
                       <SelectContent>
@@ -138,7 +138,7 @@ export default function MainComponent() {
                       value={subject}
                       onValueChange={(value) => setSubject(value)}
                     >
-                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl">
+                      <SelectTrigger className="w-[180px] border-[#EAF0F2] rounded-3xl  max-md:w-full">
                         <SelectValue placeholder="Subject" />
                       </SelectTrigger>
                       <SelectContent>
@@ -175,12 +175,14 @@ export default function MainComponent() {
               </Button>
             </div>
           </div>
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center max-md:hidden">
             <Image src={Rectangle} alt="" width={228} height={131} />
             <Image src={Frame} alt="" width={290} height={392} />
           </div>
         </div>
-        <div className={`flex flex-col gap-3 w-[930px]`}>
+        <div
+          className={`flex flex-col gap-3 w-[930px] max-md:w-screen max-md:justify-center max-md:flex-wrap`}
+        >
           <span className="text-[#5B6170]">My coursework</span>
           <div
             className={`flex flex-wrap gap-4 w-full ${

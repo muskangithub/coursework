@@ -10,7 +10,7 @@ export default function ExploreCoursework() {
       </span>
       <div>
         <Tabs defaultValue="all" className="w-full ">
-          <TabsList className="flex gap-1 w-full bg-blue-100 items-start justify-start ">
+          <TabsList className="flex flex-wrap gap-1 w-full bg-blue-100 items-start justify-start ">
             <TabsTrigger
               value="all"
               className="rounded-xl data-[state=active]:text-[#6947BF]"
@@ -43,7 +43,7 @@ export default function ExploreCoursework() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="all">
-            <div className="w-[900px] flex flex-wrap gap-4">
+            <div className="w-[900px] flex flex-wrap gap-4 max-md:w-screen">
               <CourseCard />
               <CourseCard />
               <CourseCard />
@@ -51,15 +51,15 @@ export default function ExploreCoursework() {
             </div>
           </TabsContent>
           <TabsContent value="IA">
-            <div className="w-[900px]"> IA Example</div>
+            <div className="w-[900px] max-md:w-screen"> IA Example</div>
           </TabsContent>
-          <TabsContent value="EE" className="w-[900px]">
+          <TabsContent value="EE" className="w-[900px]  max-md:w-screen">
             <div className="w-[900px]"> EE Example</div>
           </TabsContent>
-          <TabsContent value="IO" className="w-[900px]">
+          <TabsContent value="IO" className="w-[900px]  max-md:w-screen">
             <div className="w-[900px]"> IO Example</div>
           </TabsContent>
-          <TabsContent value="Tok" className="w-[900px]">
+          <TabsContent value="Tok" className="w-[900px]  max-md:w-screen">
             <div className="w-[900px]"> ToK Example</div>
           </TabsContent>
         </Tabs>
