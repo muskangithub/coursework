@@ -34,3 +34,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+Assumptions or Design Decisions
+
+Routing: Next.js' built-in routing was used to handle page navigation. Each page corresponds to a route based on its file name in the app directory.
+State Management: React's built-in useState and useEffect hooks are used for local state management. No global state management library (e.g., Redux) was deemed necessary for the current scope.
+Performance Optimization: We leveraged Next.js' built-in image optimization and font optimization features to improve the app's performance.
+
+Bonus Points
+animation: animation added to button and when we collapse the pdf image .
+User Gratification:Congratulatory messages for good scores Encouraging feedback for areas of improvement used toast (shadcn) for doing this
+
+challenge faced:
+challenge faced in uploading pdf ,taking help from google and chat gpt and library documentation
