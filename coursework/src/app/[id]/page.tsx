@@ -85,7 +85,7 @@ export default function PageComponent() {
   
   useEffect(() => {
     if (specificCoursework) {
-      const score = (specificCoursework.eveluation?.overallScore / 20) * 100;
+      const score = (specificCoursework.evaluation?.overallScore / 20) * 100;
       if (score >= 70) {
         toast({
           variant: "success",
@@ -115,7 +115,7 @@ export default function PageComponent() {
   if (!specificCoursework || !pdfData) {
     return <div>Loading...</div>;
   }
-
+console.log(specificCoursework?.evaluation?.overallScore)
   return (
     <div className="flex bg-blue-100 pt-8 px-6 pb-6 gap-6">
       <div className="w-[50%]">
@@ -171,12 +171,12 @@ export default function PageComponent() {
               <span className="text-[#98A1BB] text-xs font-semibold">
                 Evaluated on{" "}
                 {convertDateFormat(
-                  specificCoursework?.eveluation?.evaluationDate
+                  specificCoursework?.evaluation?.evaluationDate
                 )}
               </span>
             </div>
             <CircularProgress
-              val={specificCoursework?.eveluation?.overallScore}
+              val={specificCoursework?.evaluation?.overallScore}
               height="80"
               width="80"
               type="overall"
@@ -185,7 +185,7 @@ export default function PageComponent() {
         </Card>
         <Accordion type="single" collapsible className="w-full">
           <AccordianItemContent
-            val={specificCoursework?.eveluation?.breakdown?.criteriaA}
+            val={specificCoursework?.evaluation?.breakdown?.criteriaA}
             height="60"
             width="60"
             criteria={"A"}
@@ -202,7 +202,7 @@ export default function PageComponent() {
             ]}
           />
           <AccordianItemContent
-            val={specificCoursework?.eveluation?.breakdown?.criteriaB}
+            val={specificCoursework?.evaluation?.breakdown?.criteriaB}
             height="60"
             width="60"
             criteria={"B"}
@@ -219,7 +219,7 @@ export default function PageComponent() {
             ]}
           />
           <AccordianItemContent
-            val={specificCoursework?.eveluation?.breakdown?.criteriaC}
+            val={specificCoursework?.evaluation?.breakdown?.criteriaC}
             height="60"
             width="60"
             criteria={"C"}
