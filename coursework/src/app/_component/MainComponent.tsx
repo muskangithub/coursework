@@ -32,7 +32,6 @@ export default function MainComponent() {
       const courseworkArray = JSON.parse(savedData);
       setCourseworkArray(courseworkArray);
       const lastCoursework = courseworkArray[courseworkArray.length - 1];
-
       if (lastCoursework) {
         setCourse(lastCoursework.course || "");
         setSubject(lastCoursework.subject || "");
@@ -60,9 +59,7 @@ export default function MainComponent() {
       alert("Please fill out all required fields.");
       return;
     }
-
     const currentDate = new Date().toISOString().split("T")[0];
-
     const courseworkData = {
       file: files,
       course,
@@ -78,11 +75,9 @@ export default function MainComponent() {
         evaluationDate: currentDate,
       },
     };
-
     const savedCourseworkArray =
       JSON.parse(localStorage.getItem("courseworkDataArray")) || [];
     savedCourseworkArray.push(courseworkData);
-
     localStorage.setItem(
       "courseworkDataArray",
       JSON.stringify(savedCourseworkArray)

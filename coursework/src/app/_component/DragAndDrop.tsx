@@ -9,7 +9,6 @@ interface DragAnddropProps {
 }
 
 const MAX_FILE_SIZE_MB = 25; // Maximum file size in MB
-
 const DragAnddrop: React.FC<DragAnddropProps> = ({
   onFilesSelected,
   files,

@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import {
   ArrowRight,
   ChevronsUpDown,
-  CircleCheck,
-  Info,
   Maximize,
   ZoomIn,
   ZoomOut,
@@ -12,18 +10,13 @@ import {
 import { useParams } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import CircularProgress from "../_component/CircularProgress";
 import Image from "next/image";
 import pdfimage from "../../assets/images/pdfimage.png";
 import { toast } from "@/components/ui/use-toast";
+import AccordianItemContent from "./AccordianItemContent";
 
 export default function PageComponent() {
   const params = useParams();
@@ -31,8 +24,7 @@ export default function PageComponent() {
   const [pdfData, setPdfData] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isCollapsed, setIsCollapsed] = useState(false); // State for collapsing the image
-  function convertDateFormat(dateStr) {
-    // Define an array of month names
+  function convertDateFormat(dateStr: string) {
     const monthNames = [
       "January",
       "February",
@@ -47,14 +39,8 @@ export default function PageComponent() {
       "November",
       "December",
     ];
-
-    // Split the input string into year, month, and day
     const [year, month, day] = dateStr.split("-");
-
-    // Get the month name from the array
     const monthName = monthNames[parseInt(month, 10) - 1];
-
-    // Return the formatted date
     return `${day} ${monthName} ${year}`;
   }
 
@@ -182,7 +168,7 @@ export default function PageComponent() {
           </CardContent>
         </Card>
         <Accordion type="single" collapsible className="w-full">
-          <AccordionItemContent
+          <AccordianItemContent
             val={specificCoursework?.eveluation?.breakdown?.criteriaA}
             height="60"
             width="60"
@@ -199,7 +185,7 @@ export default function PageComponent() {
               "Needs clearer arguments.",
             ]}
           />
-          <AccordionItemContent
+          <AccordianItemContent
             val={specificCoursework?.eveluation?.breakdown?.criteriaB}
             height="60"
             width="60"
@@ -216,7 +202,7 @@ export default function PageComponent() {
               "Some arguments need more evidence.",
             ]}
           />
-          <AccordionItemContent
+          <AccordianItemContent
             val={specificCoursework?.eveluation?.breakdown?.criteriaC}
             height="60"
             width="60"
@@ -244,70 +230,3 @@ export default function PageComponent() {
     </div>
   );
 }
-
-const AccordionItemContent = ({
-  val,
-  height,
-  criteria,
-  width,
-  value,
-  title,
-  description,
-  strengths,
-  improvements,
-}: any) => (
-  <AccordionItem value={value} className="bg-white py-3 px-4 rounded-3xl mb-2">
-    <AccordionTrigger className="flex ">
-      <div className="flex gap-5 items-center">
-        <CircularProgress
-          type="small"
-          height={`${height}`}
-          width={`${width}`}
-          val={val}
-        />
-        <div className="flex flex-col items-start">
-          <span className="text-[#98A1BB] font-bold text-xs">
-            Criteria:{criteria}
-          </span>
-          <span className="text-[#3D404B] font-bold text-xl">{title}</span>
-        </div>
-      </div>
-    </AccordionTrigger>
-    <AccordionContent className="flex flex-col gap-4 ">
-      <Separator />
-      <span className="text-[#5B6170] text-sm font-semibold">
-        {description}
-      </span>
-      <ContentSection title="Strengths" items={strengths} type="strength" />
-      <ContentSection
-        title="Scope of Improvement"
-        items={improvements}
-        type="improvement"
-      />
-    </AccordionContent>
-  </AccordionItem>
-);
-
-const ContentSection = ({ title, items, type }: any) => (
-  <div className="flex flex-col gap-4">
-    <span className="text-black font-extrabold text-xl">{title}</span>
-    <div
-      className={`flex flex-col border ${
-        type === "strength"
-          ? "border-[#3CC28A] bg-green-100"
-          : "border-[#F9C94E] bg-orange-100"
-      } p-4 gap-2 rounded-xl`}
-    >
-      {items.map((item, index) => (
-        <div key={index} className="flex gap-3">
-          {type === "strength" ? (
-            <CircleCheck fill="#3CC28A" stroke="#ffffff" />
-          ) : (
-            <Info fill="#F9C94E" stroke="#ffffff" />
-          )}
-          <span className="text-[#3D404B] font-bold text-sm">{item}</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);

@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { useDrop } from "react-dnd";
 
 const FileDropZone = ({ onDrop }: any) => {
   const [{ isOver, canDrop }, drop] = useDrop({
@@ -15,7 +15,6 @@ const FileDropZone = ({ onDrop }: any) => {
       canDrop: monitor.canDrop(),
     }),
   });
-
   const onFileDrop = useCallback(
     (acceptedFiles: any) => {
       onDrop(acceptedFiles);
